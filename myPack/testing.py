@@ -2,4 +2,4 @@ import os
 
 
 def test():
-  print 'yessssssssss'
+  return 'yessssssssss'
