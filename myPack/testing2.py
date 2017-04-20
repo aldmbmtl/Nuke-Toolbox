@@ -1,3 +1,3 @@
 import aldmbmtl
 
-aldmbmtl.toolbox.myPack.testing.test()
+print aldmbmtl.toolbox.myPack.testing.test()
