@@ -1,3 +1,5 @@
 import os
 
-print os
+
+def test():
+  print 'yessssssssss'
