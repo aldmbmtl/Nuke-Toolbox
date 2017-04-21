@@ -1,0 +1,15 @@
+
+push $cut_paste_input
+Blur {
+ name Blur1
+ selected true
+ xpos -248
+ ypos -151
+}
+Transform {
+ center {1024 778}
+ name Transform1
+ selected true
+ xpos -248
+ ypos -93
+}
