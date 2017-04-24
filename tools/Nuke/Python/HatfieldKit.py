@@ -1,6 +1,3 @@
-"""
-Alex Hatfield's nuke tool kit
-"""
 # nuke imports
 import nuke
 import nukescripts
