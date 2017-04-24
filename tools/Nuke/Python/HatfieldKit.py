@@ -10,39 +10,6 @@ import os
 import sys
 from collections import OrderedDict
 
-
-TRACED = []
-FILE_FILTER = ['menu.py', 'init.py']
-
-
-def traceImports(frame, event, arg):
-    if event != 'call':
-        return
-
-    co = frame.f_code
-    func_name = co.co_name
-    if func_name == 'write':
-        return
-
-    caller = frame.f_back
-
-    if not caller:
-        return
-
-    caller_filename = caller.f_code.co_filename
-    path = os.path.dirname(caller_filename).replace('\\', '/').replace('//', '/')
-
-    global TRACED
-
-    if path in TRACED:
-        return
-
-    for f in FILE_FILTER:
-        if f in os.listdir(path):
-            TRACED.append(path)
-            break
-sys.settrace(traceImports)
-
 # shows the import order for this pipeline
 def showPipelineStructure():
     """
