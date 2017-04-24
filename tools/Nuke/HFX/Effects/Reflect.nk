@@ -1,0 +1,185 @@
+set cut_paste_input [stack 0]
+version 6.3 v4
+push $cut_paste_input
+Group {
+ name Reflect
+ tile_color 0xffcf00ff
+ gl_color 0xffcf00ff
+ selected true
+ xpos -152
+ ypos -207
+ addUserKnob {20 User l Reflect}
+ addUserKnob {41 box l "Refletction Plane" T Crop1.box}
+ addUserKnob {26 ""}
+ addUserKnob {7 scale l Scale R 0 5}
+ scale 0.75
+ addUserKnob {7 fade l Fade}
+ fade 0.5
+ addUserKnob {7 Blur R 0 0.2}
+ Blur 0.095
+}
+ Input {
+  inputs 0
+  name Image
+  xpos -260
+  ypos -159
+ }
+set N229a46f0 [stack 0]
+ Remove {
+  name Remove1
+  xpos -40
+  ypos -164
+ }
+set N229b1e50 [stack 0]
+ Ramp {
+  p0 {{parent.Crop1.box.x i} {"parent.Crop1.box.t - ((parent.Crop1.box.t - parent.Crop1.box.y) * parent.fade)" i}}
+  p1 {{parent.Crop1.box.x i} {parent.Crop1.box.t i}}
+  type smooth0
+  name Ramp1
+  xpos -40
+  ypos -99
+ }
+ Crop {
+  box {0 236 2048 702}
+  name Crop1
+  xpos -40
+  ypos -39
+ }
+set N229c2cd0 [stack 0]
+push $N229a46f0
+ Crop {
+  box {{parent.Crop1.box.x i} {parent.Crop1.box.t i} {width*pixel_aspect i} {height i}}
+  name Crop2
+  xpos -260
+  ypos -99
+ }
+ Dot {
+  name Dot1
+  xpos -226
+  ypos -36
+ }
+set N229cd6e0 [stack 0]
+ Transform {
+  scale {1 {-parent.scale i}}
+  center {{(width*pixel_aspect)/2 i} {parent.Crop1.box.t i}}
+  name Transform1
+  xpos -150
+  ypos -39
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge1
+  xpos -150
+  ypos 21
+ }
+push $N229cd6e0
+ Merge2 {
+  inputs 2
+  name Merge2
+  xpos -260
+  ypos 21
+ }
+set N229e06a0 [stack 0]
+push $N229b1e50
+ Dot {
+  name Dot2
+  xpos 104
+  ypos -156
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  xpos 70
+  ypos -39
+ }
+ Crop {
+  box {{0 i} {0 i} {parent.Crop1.box i} {parent.Crop1.box i}}
+  name Crop3
+  xpos 70
+  ypos 21
+ }
+set N229f5be0 [stack 0]
+push $N229c2cd0
+ Invert {
+  inputs 1+1
+  channels alpha
+  name Invert1
+  xpos -40
+  ypos 16
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -40
+  ypos 81
+ }
+push $N229e06a0
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 depth.Z
+  name Copy1
+  xpos -260
+  ypos 76
+ }
+ ZBlur {
+  math far=0
+  center {{".2 - parent.Blur" i}}
+  name ZBlur1
+  xpos -260
+  ypos 136
+ }
+set N22b121c0 [stack 0]
+ Dot {
+  name Dot3
+  xpos -116
+  ypos 144
+ }
+push $N229f5be0
+ Dot {
+  name Dot4
+  xpos 104
+  ypos 204
+ }
+ Merge2 {
+  inputs 2
+  operation in
+  name Merge3
+  xpos -150
+  ypos 201
+ }
+ Dot {
+  name Dot5
+  xpos -116
+  ypos 264
+ }
+push $N22b121c0
+ Remove {
+  channels depth
+  name Remove2
+  xpos -260
+  ypos 196
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 mask.a
+  name Copy2
+  xpos -260
+  ypos 256
+ }
+ Crop {
+  box {{"Image.bbox.x - 20" i} {"Crop1.box.t - (Image.bbox.t - Crop1.box.t) < 0 ? 0 : Crop1.box.t - (Image.bbox.t - Crop1.box.t)" i} {"Image.bbox.r + 20" i} {"Image.bbox.t + 20" i}}
+  name Crop4
+  selected true
+  xpos -260
+  ypos 321
+ }
+ Output {
+  name Output1
+  xpos -260
+  ypos 381
+ }
+end_group
+

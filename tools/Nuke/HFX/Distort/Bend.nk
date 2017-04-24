@@ -1,0 +1,80 @@
+set cut_paste_input [stack 0]
+version 6.3 v4
+push $cut_paste_input
+Group {
+ name Bend
+ tile_color 0xcdffff
+ selected true
+ xpos -191
+ ypos 5
+ addUserKnob {20 Bend}
+ addUserKnob {12 To}
+ To {1330 1100}
+ addUserKnob {12 From1}
+ From1 {910 195}
+ addUserKnob {12 From2}
+ From2 {920 1110}
+ addUserKnob {26 ""}
+ addUserKnob {41 lut l Curvature -STARTLINE T ColorLookup1.lut}
+}
+ Input {
+  inputs 0
+  name Mask
+  xpos 100
+  ypos 51
+  number 1
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  selected true
+  xpos 100
+  ypos 111
+  disable {{"\[if \{ \[input parent 1] == 0 \} \{ return 0 \} else \{ return 1 \} ]" i}}
+ }
+ Input {
+  inputs 0
+  name Element
+  xpos -40
+  ypos 51
+ }
+ Ramp {
+  inputs 1+1
+  output forward
+  p0 {{parent.From1 i} {parent.From1 i}}
+  p1 {{parent.From2 i} {parent.From2 i}}
+  name Ramp1
+  xpos -40
+  ypos 106
+ }
+ ColorLookup {
+  channels forward
+  lut {master {curve C 0 s1 1 s0.9499999881}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup1
+  xpos -40
+  ypos 166
+ }
+ IDistort {
+  uv forward
+  uv_scale {{"parent.From2.x - parent.To.x" i} {"parent.From2.y - parent.To.y" i}}
+  name IDistort1
+  xpos -40
+  ypos 226
+ }
+ Remove {
+  channels forward
+  name Remove1
+  xpos -40
+  ypos 286
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 351
+ }
+end_group
+

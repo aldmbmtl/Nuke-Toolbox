@@ -1,0 +1,79 @@
+set cut_paste_input [stack 0]
+version 6.3 v4
+push $cut_paste_input
+Group {
+ name Bilateral_Noise
+ tile_color 0xcdffff
+ selected true
+ xpos -68
+ ypos -141
+ addUserKnob {20 User l "Bilateral Noise"}
+ addUserKnob {41 output T Noise1.output}
+ addUserKnob {41 opacity T Noise1.opacity}
+ addUserKnob {26 ""}
+ addUserKnob {41 type T Noise1.type}
+ addUserKnob {41 size l x/ysize T Noise1.size}
+ addUserKnob {41 zoffset l z T Noise1.zoffset}
+ addUserKnob {41 octaves T Noise1.octaves}
+ addUserKnob {41 nyquist l "clip at Nyquist limit" -STARTLINE T Noise1.nyquist}
+ addUserKnob {41 lacunarity T Noise1.lacunarity}
+ addUserKnob {41 gain T Noise1.gain}
+ addUserKnob {41 gamma T Noise1.gamma}
+}
+ Input {
+  inputs 0
+  name Image
+  xpos -260
+  ypos -249
+ }
+ Remove {
+  name Remove1
+  xpos -260
+  ypos -194
+ }
+ Noise {
+  output rgb
+  center {1024 778}
+  name Noise1
+  xpos -260
+  ypos -129
+ }
+set N22bdf510 [stack 0]
+ Invert {
+  name Invert1
+  xpos -260
+  ypos -74
+ }
+ Multiply {
+  value -1
+  name Multiply1
+  xpos -260
+  ypos -14
+ }
+push $N22bdf510
+ Dot {
+  name Dot2
+  xpos -336
+  ypos -126
+ }
+ Dot {
+  name Dot3
+  xpos -336
+  ypos 54
+ }
+ Merge2 {
+  inputs 2
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge1
+  xpos -260
+  ypos 51
+ }
+ Output {
+  name Output1
+  xpos -260
+  ypos 111
+ }
+end_group
+

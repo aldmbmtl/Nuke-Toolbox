@@ -1,0 +1,129 @@
+set cut_paste_input [stack 0]
+version 9.0 v8
+push $cut_paste_input
+Group {
+ name HFX_LightWash
+ tile_color 0xff7a26ff
+ selected true
+ xpos -2900
+ ypos -346
+ addUserKnob {20 User l LightFlare}
+ addUserKnob {6 soloEffect l "solo effect" +STARTLINE}
+ soloEffect true
+ addUserKnob {7 amount R 0 500}
+ amount 294
+ addUserKnob {7 gamma}
+ gamma 0.6
+ addUserKnob {7 gain}
+ gain 1
+ addUserKnob {26 ""}
+ addUserKnob {7 mix}
+ mix 1
+ addUserKnob {6 mask -STARTLINE}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 180
+  ypos 278
+  number 1
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos -370
+  ypos -58
+ }
+set N7579b400 [stack 0]
+push $N7579b400
+ Reformat {
+  type "to box"
+  box_fixed true
+  resize distort
+  name Reformat1
+  xpos 70
+  ypos 38
+ }
+ Blur {
+  size {{width}}
+  name Blur2
+  xpos 70
+  ypos 80
+ }
+ Reformat {
+  type "to box"
+  box_width {{Input1.width}}
+  box_height {{Input1.height}}
+  box_fixed true
+  box_pixel_aspect {{Input1.pixel_aspect}}
+  resize distort
+  name Reformat2
+  xpos 70
+  ypos 134
+ }
+push $N7579b400
+ Blur {
+  size {{"parent.Blur3.size * 2"}}
+  name Blur1
+  xpos 290
+  ypos 32
+ }
+push $N7579b400
+ Blur {
+  size {{parent.amount}}
+  name Blur3
+  xpos 400
+  ypos 32
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge3
+  xpos 290
+  ypos 86
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge1
+  xpos 290
+  ypos 134
+ }
+ Grade {
+  multiply {{parent.gain}}
+  gamma {{parent.gamma}}
+  name Grade1
+  xpos 290
+  ypos 182
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos -40
+  ypos 182
+  disable {{parent.soloEffect}}
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge6
+  xpos -40
+  ypos 278
+  disable {{!parent.mask}}
+ }
+push $N7579b400
+ Dissolve {
+  inputs 2
+  which {{parent.mix}}
+  name Dissolve1
+  xpos -370
+  ypos 272
+ }
+ Output {
+  name Output1
+  selected true
+  xpos -370
+  ypos 422
+ }
+end_group

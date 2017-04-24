@@ -1,0 +1,75 @@
+set cut_paste_input [stack 0]
+version 9.0 v6
+push 0
+push $cut_paste_input
+Group {
+ inputs 2
+ name HFX_WSWrapper1
+ tile_color 0x91ffff
+ selected true
+ xpos 202
+ ypos -2554
+ addUserKnob {20 User l "Normals Wrapper"}
+ addUserKnob {6 invertU l "Invert U" t "Inverts the U normals. This is useful for when doing a relight and the light is moving opposite the position you put it on screen." +STARTLINE}
+ invertU true
+ addUserKnob {6 invertV l "Invert V" t "Inverts the V normals. This is useful for when doing a relight and the light is moving opposite the position you put it on screen." -STARTLINE}
+}
+ Input {
+  inputs 0
+  name normals
+  xpos -370
+  ypos -10
+ }
+ Multiply {
+  channels rgba
+  value {{"parent.invertU == 1 ? -1 : 1"} {"parent.invertV == 1 ? -1 : 1"} 1 1}
+  name Multiply1
+  xpos -370
+  ypos 38
+ }
+ Grade {
+  blackpoint -1
+  multiply {1 1 0 1}
+  black_clamp false
+  name Grade1
+  xpos -370
+  ypos 86
+ }
+ Expression {
+  expr0 "r == .5 ? 0 : r"
+  expr1 "g == .5 ? 0 : g"
+  name Expression1
+  xpos -370
+  ypos 134
+ }
+ Input {
+  inputs 0
+  name texture
+  xpos -150
+  ypos 38
+  number 1
+ }
+ Reformat {
+  type "to box"
+  box_width {{normals.width}}
+  box_height {{normals.height}}
+  box_fixed true
+  box_pixel_aspect {{normals.pixel_aspect}}
+  resize distort
+  name Reformat1
+  xpos -150
+  ypos 134
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap1
+  xpos -370
+  ypos 176
+ }
+ Output {
+  name Output1
+  xpos -370
+  ypos 230
+ }
+end_group

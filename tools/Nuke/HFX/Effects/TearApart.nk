@@ -1,0 +1,155 @@
+set cut_paste_input [stack 0]
+version 6.3 v4
+push $cut_paste_input
+Group {
+ name TearApart
+ tile_color 0xffcf00ff
+ selected true
+ xpos -118
+ ypos -115
+ addUserKnob {20 User l "Tear Apart"}
+ addUserKnob {6 useMask l "Use Mask" +STARTLINE}
+ addUserKnob {26 space l "" +STARTLINE T "\n"}
+ addUserKnob {12 direction l Direction}
+ direction {1036 893}
+ addUserKnob {26 ""}
+ addUserKnob {7 effect l Effect}
+ effect 0.5
+ addUserKnob {41 size l x/ysize T Bilateral_Noise.size}
+ addUserKnob {41 zoffset l z T Bilateral_Noise.zoffset}
+ addUserKnob {41 gamma T Bilateral_Noise.gamma}
+ addUserKnob {41 gain T Bilateral_Noise.gain}
+}
+ Input {
+  inputs 0
+  name Mask
+  xpos 100
+  ypos 111
+  number 1
+ }
+ Shuffle {
+  red white
+  green white
+  blue white
+  alpha white
+  name Shuffle1
+  selected true
+  xpos 100
+  ypos 171
+  disable {{parent.useMask i}}
+ }
+ Input {
+  inputs 0
+  name Image
+  xpos -180
+  ypos 111
+ }
+set N22fedf50 [stack 0]
+ Group {
+  name Bilateral_Noise
+  tile_color 0xcdffff
+  xpos -40
+  ypos 111
+  addUserKnob {20 User l "Bilateral Noise"}
+  addUserKnob {41 output T Noise1.output}
+  addUserKnob {41 opacity T Noise1.opacity}
+  addUserKnob {26 ""}
+  addUserKnob {41 type T Noise1.type}
+  addUserKnob {41 size l x/ysize T Noise1.size}
+  addUserKnob {41 zoffset l z T Noise1.zoffset}
+  addUserKnob {41 octaves T Noise1.octaves}
+  addUserKnob {41 nyquist l "clip at Nyquist limit" -STARTLINE T Noise1.nyquist}
+  addUserKnob {41 lacunarity T Noise1.lacunarity}
+  addUserKnob {41 gain T Noise1.gain}
+  addUserKnob {41 gamma T Noise1.gamma}
+ }
+  Input {
+   inputs 0
+   name Image
+   xpos -260
+   ypos -249
+  }
+  Remove {
+   name Remove1
+   xpos -260
+   ypos -194
+  }
+  Noise {
+   output rgb
+   size 40
+   center {1024 778}
+   name Noise1
+   xpos -260
+   ypos -129
+  }
+set N22c01780 [stack 0]
+  Invert {
+   name Invert1
+   xpos -260
+   ypos -74
+  }
+  Multiply {
+   value -1
+   name Multiply1
+   xpos -260
+   ypos -14
+  }
+push $N22c01780
+  Dot {
+   name Dot2
+   xpos -336
+   ypos -126
+  }
+  Dot {
+   name Dot3
+   xpos -336
+   ypos 54
+  }
+  Merge2 {
+   inputs 2
+   Achannels rgb
+   Bchannels rgb
+   output rgb
+   name Merge1
+   xpos -260
+   ypos 51
+  }
+  Output {
+   name Output1
+   xpos -260
+   ypos 111
+  }
+ end_group
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge1
+  xpos -40
+  ypos 171
+ }
+push $N22fedf50
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 forward.u
+  from1 rgba.green
+  to1 forward.v
+  name Copy1
+  xpos -180
+  ypos 160
+ }
+ IDistort {
+  channels rgba
+  uv forward
+  uv_scale {{"( parent.direction.x - (width/2) ) * parent.effect" i} {"( parent.direction.y - (height/2) ) * parent.effect" i}}
+  name IDistort1
+  xpos -180
+  ypos 231
+ }
+ Output {
+  name Output1
+  xpos -180
+  ypos 291
+ }
+end_group
+

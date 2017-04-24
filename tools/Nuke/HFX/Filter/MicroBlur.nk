@@ -1,0 +1,67 @@
+set cut_paste_input [stack 0]
+version 6.3 v4
+push $cut_paste_input
+Group {
+ name Micro_Blur
+ tile_color 0xc98848ff
+ selected true
+ xpos -10
+ ypos -214
+ addUserKnob {20 User l "Micro Blur"}
+ addUserKnob {7 amount l Amount}
+}
+ Input {
+  inputs 0
+  name Input1
+  selected true
+  xpos 70
+  ypos -219
+ }
+set N1de337f0 [stack 0]
+ Transform {
+  translate {0 {-parent.amount i}}
+  center {1024 778}
+  name Transform4
+  xpos 290
+  ypos -159
+ }
+push $N1de337f0
+ Transform {
+  translate {0 {parent.amount i}}
+  center {1024 778}
+  name Transform3
+  xpos 180
+  ypos -159
+ }
+push 0
+push $N1de337f0
+ Transform {
+  translate {{-parent.amount i} 0}
+  center {1024 778}
+  name Transform2
+  xpos -150
+  ypos -159
+ }
+push $N1de337f0
+ Transform {
+  translate {{parent.amount i} 0}
+  center {1024 778}
+  motionblur 0.03
+  name Transform1
+  xpos -40
+  ypos -159
+ }
+ Merge2 {
+  inputs 4+1
+  operation average
+  name Merge2
+  xpos 70
+  ypos -69
+ }
+ Output {
+  name Output1
+  xpos 70
+  ypos 51
+ }
+end_group
+

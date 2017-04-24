@@ -1,0 +1,14 @@
+set cut_paste_input [stack 0]
+version 6.3 v4
+push $cut_paste_input
+Expression {
+ expr0 abs(r)
+ expr1 abs(g)
+ expr2 abs(b)
+ expr3 abs(a)
+ name AbsoluteValue
+ selected true
+ xpos -205
+ ypos -122
+}
+

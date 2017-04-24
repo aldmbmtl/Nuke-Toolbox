@@ -1,0 +1,111 @@
+set cut_paste_input [stack 0]
+version 6.3 v5
+push 0
+push $cut_paste_input
+Group {
+ inputs 2
+ name AutoFiller1
+ selected true
+ xpos -260
+ ypos 38
+ addUserKnob {20 User l AutoFill}
+ addUserKnob {41 uv_scale l Amount T IDistort1.uv_scale}
+ addUserKnob {41 size l Smooth T Blur1.size}
+}
+ Input {
+  inputs 0
+  name Matte
+  xpos 290
+  ypos -154
+  number 1
+ }
+set Ncfeb770 [stack 0]
+add_layer {rgba redguard1.glow}
+ LevelSet {
+  name LevelSet1
+  xpos 70
+  ypos -160
+ }
+set Nd88ce30 [stack 0]
+ Shuffle {
+  in forward
+  name Shuffle1
+  xpos 180
+  ypos -106
+ }
+push $Nd88ce30
+ Shuffle {
+  in alpha
+  name Shuffle2
+  xpos 70
+  ypos -106
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Merge2
+  xpos 70
+  ypos -58
+ }
+push $Ncfeb770
+ Dot {
+  name Dot1
+  xpos 324
+  ypos -6
+ }
+ Merge2 {
+  inputs 2
+  operation in
+  also_merge all
+  name Merge3
+  xpos 70
+  ypos -10
+ }
+ Multiply {
+  value -2
+  name Multiply1
+  xpos 70
+  ypos 32
+ }
+ Blur {
+  size 5
+  name Blur1
+  xpos 70
+  ypos 80
+ }
+ Input {
+  inputs 0
+  name Image
+  xpos -40
+  ypos -154
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 forward.u
+  from1 rgba.green
+  to1 forward.v
+  name Copy1
+  xpos -40
+  ypos 74
+ }
+ IDistort {
+  uv forward
+  name IDistort1
+  xpos -40
+  ypos 128
+ }
+ Remove {
+  channels forward
+  name Remove1
+  xpos -40
+  ypos 176
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 230
+ }
+end_group
+

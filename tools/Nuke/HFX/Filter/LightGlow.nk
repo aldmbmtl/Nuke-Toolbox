@@ -1,0 +1,144 @@
+set cut_paste_input [stack 0]
+version 9.0 v8
+push $cut_paste_input
+Group {
+ name HFX_LightFlare1
+ tile_color 0xff7a26ff
+ selected true
+ xpos -2790
+ ypos -346
+ addUserKnob {20 User l LightFlare}
+ addUserKnob {6 soloEffect l "solo effect" +STARTLINE}
+ addUserKnob {7 amount R 0 500}
+ amount 150
+ addUserKnob {7 gamma}
+ gamma 1
+ addUserKnob {7 gain}
+ gain 0.775
+ addUserKnob {26 ""}
+ addUserKnob {7 mix}
+ mix 1
+ addUserKnob {6 mask -STARTLINE}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 180
+  ypos 278
+  number 1
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos -370
+  ypos -58
+ }
+set N55046000 [stack 0]
+push $N55046000
+ Reformat {
+  type "to box"
+  box_fixed true
+  resize distort
+  name Reformat1
+  xpos 70
+  ypos 38
+ }
+ Blur {
+  size {{width}}
+  name Blur2
+  xpos 70
+  ypos 80
+ }
+ Reformat {
+  type "to box"
+  box_width {{Input1.width}}
+  box_height {{Input1.height}}
+  box_fixed true
+  box_pixel_aspect {{Input1.pixel_aspect}}
+  resize distort
+  name Reformat2
+  xpos 70
+  ypos 134
+ }
+push $N55046000
+ Blur {
+  size {{"parent.Blur3.size * 2"}}
+  name Blur1
+  xpos 290
+  ypos 32
+ }
+push $N55046000
+ Blur {
+  size {{parent.amount}}
+  name Blur3
+  xpos 400
+  ypos 32
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge3
+  xpos 290
+  ypos 86
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge1
+  xpos 290
+  ypos 134
+ }
+ Grade {
+  multiply {{parent.gain}}
+  gamma {{parent.gamma}}
+  name Grade1
+  xpos 290
+  ypos 182
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos -40
+  ypos 182
+  disable {{parent.soloEffect}}
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge6
+  xpos -40
+  ypos 278
+  disable {{!parent.mask}}
+ }
+push $N55046000
+ Dissolve {
+  inputs 2
+  which {{parent.mix}}
+  name Dissolve1
+  xpos -370
+  ypos 272
+ }
+ Output {
+  name Output1
+  selected true
+  xpos -370
+  ypos 422
+ }
+end_group
+Glow2 {
+ size 100
+ name Glow1
+ selected true
+ xpos -2790
+ ypos -298
+}
+Grade {
+ blackpoint 0.03
+ whitepoint 3
+ multiply 0.5
+ name Grade14
+ selected true
+ xpos -2790
+ ypos -250
+}

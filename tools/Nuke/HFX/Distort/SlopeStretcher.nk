@@ -1,0 +1,89 @@
+set cut_paste_input [stack 0]
+version 6.3 v4
+push $cut_paste_input
+Group {
+ name Slope_Stretcher
+ onCreate "nuke.thisNode()\['top'].setFlag(0x0000000000000010) ; nuke.thisNode()\['top'].setFlag(0x0000000000000002) ; nuke.thisNode()\['viewerA'].setFlag(0x0000000002000000) ; nuke.thisNode()\['viewerS'].setFlag(0x0000000002000000) ; nuke.thisNode()\['Amount'].setFlag(0x0000000002000000) ; nuke.thisNode()\['Smoothing'].setFlag(0x0000000002000000)"
+ tile_color 0x476effff
+ selected true
+ xpos -224
+ ypos -126
+ addUserKnob {20 User l "Slope Stretcher"}
+ addUserKnob {41 channels T IDistort1.channels}
+ addUserKnob {7 Amount l "Amount %" R 0 100}
+ Amount 50
+ addUserKnob {7 Smoothing l "Smoothing px" R 0 100}
+ Smoothing 50
+ addUserKnob {26 ""}
+ addUserKnob {20 UI n 1}
+ addUserKnob {12 src l Source}
+ src {870 486}
+ addUserKnob {12 dest l Destination}
+ dest {1080 485}
+ addUserKnob {12 cur l "" +STARTLINE}
+ cur {{"src.x + ( ( src.x - dest.x ) * ( -Amount * .01 ) )" i} {"src.y + ( ( src.y - dest.y ) * ( -Amount * .01 ) )" i}}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 top n 1}
+ addUserKnob {41 viewerA l Amount T Amount}
+ addUserKnob {41 viewerS l Smoothing T Smoothing}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+}
+ Input {
+  inputs 0
+  name Mask
+  xpos 70
+  ypos -9
+  number 1
+ }
+ AddChannels {
+  channels alpha
+  name AddChannels1
+  xpos 70
+  ypos 46
+ }
+ Input {
+  inputs 0
+  name Image
+  xpos -40
+  ypos -9
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 forward.u
+  from1 rgba.alpha
+  to1 forward.v
+  name Copy1
+  xpos -40
+  ypos 40
+ }
+ Blur {
+  channels forward
+  size {{parent.Smoothing i}}
+  name Blur1
+  xpos -40
+  ypos 106
+ }
+ IDistort {
+  uv forward
+  uv_scale {{"(parent.src.x - parent.dest.x) * (parent.Amount*.01)" i} {"(parent.src.y - parent.dest.y) * (parent.Amount*.01)" i}}
+  name IDistort1
+  xpos -40
+  ypos 166
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 231
+ }
+ Ramp {
+  inputs 0
+  p0 {{"cur.x + ( ( src.x - dest.x ) < 0 ? -sqrt( ( src.x - dest.x ) * -1 ) * -Smoothing : sqrt( src.x - dest.x ) * Smoothing )" i} {"cur.y + ( ( src.y - dest.y ) < 0 ? -sqrt( ( src.y - dest.y ) * -1 ) * -Smoothing : sqrt( src.y - dest.y ) * Smoothing )" i}}
+  p1 {0 0}
+  name Ramp1
+  selected true
+  xpos 83
+  ypos 154
+ }
+end_group
+

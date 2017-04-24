@@ -1,0 +1,227 @@
+set cut_paste_input [stack 0]
+version 9.0 v8
+push $cut_paste_input
+Group {
+ name HFX_VelocityBlur7
+ tile_color 0xff8118ff
+ selected true
+ xpos 1159
+ ypos -533
+ addUserKnob {20 User}
+ addUserKnob {6 additive l Additive +STARTLINE}
+ addUserKnob {7 amount l Amount R 0 5}
+ amount 0.5
+ addUserKnob {7 catchAll l "Motion Catch" R -5 5}
+ catchAll -1
+}
+ Input {
+  inputs 0
+  name fg
+  xpos 730
+  ypos -346
+ }
+ Clamp {
+  channels alpha
+  name Clamp1
+  xpos 730
+  ypos -256
+ }
+set N747e3000 [stack 0]
+ Unpremult {
+  name Unpremult2
+  xpos 510
+  ypos -250
+ }
+ Premult {
+  name Premult3
+  xpos 510
+  ypos -202
+ }
+push $N747e3000
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge3
+  xpos 510
+  ypos -154
+ }
+ Dot {
+  name Dot2
+  xpos 544
+  ypos 474
+ }
+set N995e6000 [stack 0]
+ Dot {
+  name Dot1
+  xpos 544
+  ypos 570
+ }
+push $N747e3000
+add_layer {velocity velocity.X velocity.Y velocity.Z}
+ Dilate {
+  channels velocity
+  size {{-parent.catchAll}}
+  name Dilate27
+  xpos 730
+  ypos -208
+ }
+ Dilate {
+  channels velocity
+  size {{parent.catchAll}}
+  name Dilate6
+  xpos 730
+  ypos -160
+ }
+ Dilate {
+  channels velocity
+  size {{parent.catchAll}}
+  name Dilate29
+  xpos 730
+  ypos -112
+ }
+ Dilate {
+  channels velocity
+  size {{-parent.catchAll}}
+  name Dilate28
+  xpos 730
+  ypos -64
+ }
+ Dilate {
+  channels velocity
+  size {{parent.catchAll}}
+  name Dilate30
+  xpos 730
+  ypos -16
+ }
+ Blur {
+  channels velocity
+  size {{"abs(parent.catchAll * 10)"}}
+  name Blur1
+  xpos 730
+  ypos 32
+ }
+set N994ec000 [stack 0]
+ VectorBlur {
+  uv velocity
+  scale {{parent.amount}}
+  method forward
+  alpha rgba.alpha
+  name VectorBlur2
+  xpos 730
+  ypos 128
+ }
+set N994edc00 [stack 0]
+ Unpremult {
+  name Unpremult1
+  xpos 730
+  ypos 326
+ }
+set N994ed800 [stack 0]
+push $N994ec000
+ Dot {
+  name Dot4
+  xpos 874
+  ypos 42
+ }
+set N994ed400 [stack 0]
+push $N994edc00
+ ChannelMerge {
+  inputs 2
+  operation absminus
+  name ChannelMerge1
+  xpos 840
+  ypos 217
+ }
+push $N994edc00
+ Expression {
+  expr3 ceil(a)
+  name Expression1
+  xpos 950
+  ypos 134
+ }
+push $N994ed400
+ Input {
+  inputs 0
+  name bg
+  xpos 1170
+  ypos -346
+  number 1
+ }
+set N7ed31000 [stack 0]
+ Copy {
+  inputs 2
+  channels velocity
+  name Copy1
+  xpos 1170
+  ypos 25
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos 950
+  ypos 176
+ }
+ Premult {
+  name Premult1
+  xpos 950
+  ypos 230
+ }
+push $N994ed800
+ Merge2 {
+  inputs 2+1
+  operation under
+  name Merge1
+  xpos 950
+  ypos 326
+  disable {{!parent.additive}}
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy3
+  xpos 950
+  ypos 368
+ }
+ Premult {
+  name Premult2
+  xpos 950
+  ypos 422
+ }
+push $N995e6000
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge4
+  xpos 950
+  ypos 470
+ }
+ Clamp {
+  channels rgb
+  maximum_enable false
+  name Clamp2
+  xpos 950
+  ypos 518
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge5
+  xpos 950
+  ypos 566
+ }
+ Output {
+  name Output1
+  xpos 950
+  ypos 614
+ }
+push $N7ed31000
+ Merge2 {
+  inputs 2
+  name Merge2
+  xpos 1280
+  ypos 614
+ }
+end_group

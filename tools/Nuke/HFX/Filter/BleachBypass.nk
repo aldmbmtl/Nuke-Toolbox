@@ -1,0 +1,102 @@
+set cut_paste_input [stack 0]
+version 6.3 v4
+push $cut_paste_input
+Group {
+ name Bleach_Bypass
+ help "Process the image to create a Bleach Bypass look. The Amount slider softens and sharpens the image to give a 'film look'. Use the Boost to bring up the image values to match the input image. "
+ tile_color 0x5d6fa5ff
+ selected true
+ xpos -162
+ ypos -89
+ addUserKnob {20 BleachBypass l "Bleach Bypass"}
+ addUserKnob {41 Amount T Merge1.mix}
+ addUserKnob {41 saturation l Saturation T Saturation1.saturation}
+ addUserKnob {26 ""}
+ addUserKnob {4 op l Function M {Mult Add}}
+ addUserKnob {19 Multiply1_value l Boost R 0 15}
+ Multiply1_value 3
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 400
+  ypos -129
+ }
+ Dot {
+  name Dot1
+  xpos 434
+  ypos -96
+ }
+set N22bef6a0 [stack 0]
+ Dot {
+  name Dot2
+  xpos 434
+  ypos 84
+ }
+set N22bf2230 [stack 0]
+push $N22bef6a0
+ Blur {
+  channels rgb
+  size 15
+  name Blur1
+  xpos 510
+  ypos -99
+ }
+set N22bf6530 [stack 0]
+ Add {
+  channels rgb
+  value {{parent.Multiply1.value i}}
+  name Add1
+  selected true
+  xpos 620
+  ypos -39
+ }
+push $N22bf6530
+ Multiply {
+  channels rgb
+  value {{parent.Multiply1_value.r i} {parent.Multiply1_value.g i} {parent.Multiply1_value.b i} {parent.Multiply1_value.a i}}
+  name Multiply1
+  selected true
+  xpos 510
+  ypos -39
+ }
+ Switch {
+  inputs 2
+  which {{parent.op i}}
+  name Switch1
+  xpos 510
+  ypos 21
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos 510
+  ypos 81
+ }
+ Dot {
+  name Dot3
+  xpos 544
+  ypos 144
+ }
+push $N22bf2230
+ Merge2 {
+  inputs 2
+  operation multiply
+  mix 0.5
+  name Merge1
+  xpos 400
+  ypos 141
+ }
+ Saturation {
+  saturation 0.75
+  name Saturation1
+  xpos 400
+  ypos 201
+ }
+ Output {
+  name Output1
+  xpos 400
+  ypos 261
+ }
+end_group
+

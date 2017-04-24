@@ -1,0 +1,239 @@
+set cut_paste_input [stack 0]
+version 9.0 v8
+push $cut_paste_input
+Group {
+ name HFX_LightWrap
+ tile_color 0xff7a26ff
+ selected true
+ xpos -2900
+ ypos -778
+ addUserKnob {20 User l LightWrap}
+ addUserKnob {6 effectSolo l "solo effect" +STARTLINE}
+ addUserKnob {7 bleed R 0 100}
+ bleed 50
+ addUserKnob {26 ""}
+ addUserKnob {7 saturation R 0 2}
+ saturation 1
+ addUserKnob {7 luma R 0 2}
+ luma 1
+ addUserKnob {26 ""}
+ addUserKnob {7 mix}
+ mix 1
+ addUserKnob {6 mask -STARTLINE}
+}
+ Input {
+  inputs 0
+  name object
+  xpos -40
+  ypos -442
+ }
+ Dot {
+  name Dot6
+  xpos -6
+  ypos -198
+ }
+set N2a07a800 [stack 0]
+ Dot {
+  name Dot1
+  xpos 324
+  ypos -198
+ }
+set N2a07a400 [stack 0]
+ Dot {
+  name Dot2
+  xpos 434
+  ypos -198
+ }
+set N2a07a000 [stack 0]
+ Shuffle {
+  in alpha
+  name Shuffle1
+  xpos 510
+  ypos -202
+ }
+ Invert {
+  name Invert1
+  xpos 730
+  ypos -208
+ }
+set N2a0a7800 [stack 0]
+ Dot {
+  name Dot4
+  xpos 764
+  ypos 330
+ }
+set N2a0a7400 [stack 0]
+ Dot {
+  name Dot3
+  xpos 764
+  ypos 378
+ }
+push $N2a0a7400
+ Blur {
+  size {{parent.bleed}}
+  name Blur2
+  xpos 620
+  ypos 320
+ }
+ set C2a0a6c00 [stack 0]
+push $N2a07a000
+ Colorspace {
+  colorspace_out HSL
+  name Colorspace2
+  xpos 400
+  ypos -58
+ }
+set N2a0a6800 [stack 0]
+push $N2a0a7800
+ Input {
+  inputs 0
+  name light
+  xpos 840
+  ypos -442
+  number 1
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge1
+  xpos 840
+  ypos -202
+ }
+clone $C2a0a6c00 {
+  xpos 840
+  ypos -64
+  selected false
+ }
+ Colorspace {
+  colorspace_out HSL
+  name Colorspace1
+  xpos 840
+  ypos -10
+ }
+set N2a0e3800 [stack 0]
+clone $C2a0a6c00 {
+  xpos 840
+  ypos 176
+  selected false
+ }
+ Merge2 {
+  inputs 2
+  operation average
+  name Merge4
+  xpos 620
+  ypos 182
+ }
+push $N2a0e3800
+ Grade {
+  multiply 4
+  name Grade1
+  xpos 620
+  ypos 38
+ }
+push $N2a0e3800
+push $N2a0a6800
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  name Copy1
+  xpos 400
+  ypos -16
+ }
+ Copy {
+  inputs 2
+  from0 rgba.green
+  to0 rgba.green
+  name Copy3
+  xpos 400
+  ypos 80
+ }
+ Copy {
+  inputs 2
+  from0 rgba.blue
+  to0 rgba.blue
+  name Copy2
+  xpos 400
+  ypos 176
+ }
+ Multiply {
+  channels rgb
+  value {1 {parent.saturation} {parent.luma} 1}
+  name Multiply1
+  xpos 400
+  ypos 230
+ }
+ Colorspace {
+  colorspace_in HSL
+  name Colorspace3
+  xpos 400
+  ypos 278
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge5
+  xpos 400
+  ypos 326
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  name Merge3
+  xpos 400
+  ypos 374
+ }
+set N2a12b000 [stack 0]
+ Dot {
+  name Dot5
+  xpos 434
+  ypos 618
+ }
+ Input {
+  inputs 0
+  name mask
+  selected true
+  xpos 510
+  ypos 470
+  number 2
+ }
+push $N2a12b000
+push $N2a07a400
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos 290
+  ypos 374
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge6
+  selected true
+  xpos 290
+  ypos 470
+  disable {{!parent.mask}}
+ }
+push $N2a07a800
+ Dissolve {
+  inputs 2
+  which {{parent.mix}}
+  name Dissolve1
+  selected true
+  xpos -40
+  ypos 464
+ }
+ Switch {
+  inputs 2
+  which {{parent.effectSolo}}
+  name Switch1
+  xpos -40
+  ypos 614
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 662
+ }
+end_group

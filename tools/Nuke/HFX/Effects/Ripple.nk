@@ -1,0 +1,167 @@
+set cut_paste_input [stack 0]
+version 6.3 v4
+push $cut_paste_input
+Group {
+ name Ripple
+ tile_color 0xffcf00ff
+ selected true
+ xpos -73
+ ypos -235
+ addUserKnob {20 User l Ripple}
+ addUserKnob {6 UseMask l "Use Mask" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {7 Speed}
+ Speed 0.5
+ addUserKnob {7 Chop R 0 50}
+ Chop 25
+ addUserKnob {7 Size R 0 500}
+ Size 500
+ addUserKnob {7 MatchIntersection l "Match Intersection" R 0 100}
+ MatchIntersection 100
+}
+ Input {
+  inputs 0
+  name Mask
+  xpos 290
+  ypos -39
+  number 1
+ }
+ Blur {
+  size {{parent.MatchIntersection i}}
+  name Blur2
+  selected true
+  xpos 290
+  ypos -14
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  xpos 290
+  ypos 21
+  disable {{parent.UseMask i}}
+ }
+ AddChannels {
+  channels alpha
+  name AddChannels1
+  xpos 290
+  ypos 46
+ }
+set N229a3ac0 [stack 0]
+ Dot {
+  name Dot4
+  xpos 324
+  ypos 84
+ }
+set N229a7c00 [stack 0]
+ Dot {
+  name Dot5
+  xpos 324
+  ypos 114
+ }
+set N22b44c00 [stack 0]
+ Dot {
+  name Dot6
+  xpos 324
+  ypos 144
+ }
+set N22b47960 [stack 0]
+ Dot {
+  name Dot7
+  xpos 324
+  ypos 174
+ }
+push $N22b47960
+push $N22b44c00
+push $N229a7c00
+push $N229a3ac0
+ Input {
+  inputs 0
+  name Image
+  xpos -40
+  ypos -9
+ }
+set N22b4d380 [stack 0]
+ Remove {
+  name Remove1
+  xpos 180
+  ypos -14
+ }
+ Noise {
+  inputs 1+1
+  output mask
+  size {{parent.Size i}}
+  zoffset {{"(frame - first_frame) * (parent.Speed*.1)" i x1 0 x25 2}}
+  center {1024 778}
+  name Noise1
+  xpos 180
+  ypos 46
+ }
+set N22b54ca0 [stack 0]
+ Invert {
+  inputs 1+1
+  channels mask
+  name Invert1
+  xpos 180
+  ypos 76
+ }
+ Multiply {
+  inputs 1+1
+  channels mask
+  value -1
+  name Multiply1
+  xpos 180
+  ypos 106
+ }
+push $N22b54ca0
+ Dot {
+  name Dot2
+  xpos 104
+  ypos 54
+ }
+ Dot {
+  name Dot3
+  xpos 104
+  ypos 144
+ }
+ Merge2 {
+  inputs 2+1
+  Achannels mask
+  Bchannels mask
+  output mask
+  name Merge1
+  xpos 180
+  ypos 136
+ }
+ Blur {
+  inputs 1+1
+  channels mask
+  size {{parent.Chop i}}
+  name Blur1
+  xpos 180
+  ypos 166
+ }
+push $N22b4d380
+ Copy {
+  inputs 2
+  from0 mask.a
+  to0 mask.a
+  name Copy1
+  xpos -40
+  ypos 166
+ }
+ IDistort {
+  channels rgb
+  uv mask
+  uv_scale {25 0}
+  blur_scale 100
+  name IDistort1
+  xpos -40
+  ypos 231
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 291
+ }
+end_group
+
