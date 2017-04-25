@@ -19,7 +19,7 @@ def closeAllNodes():
     """
     for node in nuke.allNodes():
         node.hideControlPanel()
-nuke.menu('Node Graph').addCommand('Hatfield\'s/Close all nodes', closeAllNodes, 'alt+`')
+nuke.menu('Node Graph').addCommand('FloatingTools/toolbox/Python/HatfieldKit/Close all nodes', closeAllNodes, 'alt+`')
 
 # the default auto place fuction will always apply the snapping
 # to all nodes. This version will only do it to the selected nodes
@@ -53,7 +53,7 @@ def createReadLink():
     postageStamp['label'].setValue('[basename [value [topnode].file]]')
     postageStamp['hide_input'].setValue(True)
     postageStamp.setInput(0, targetRead)
-nuke.menu('Node Graph').addCommand('Hatfield\'s/Link to Read', createReadLink, shortcut='l')
+nuke.menu('Node Graph').addCommand('FloatingTools/toolbox/Python/HatfieldKit/Link to Read', createReadLink, shortcut='l')
 
 # Just for shutting off callbacks if a studio overly loaded one up
 # and is actively slowing shit down.
@@ -119,7 +119,7 @@ class CallbackManager(nukescripts.PythonPanel):
             commandKnob.setFlag(0x00001000)
 
             self.addKnob(commandKnob)
-nuke.menu('Nuke').addCommand('Hatfield\'s/Callback Manager', 'import HatfieldKit ; HatfieldKit.CallbackManager().show()')
+nuke.menu('Nuke').addCommand('FloatingTools/toolbox/Python/HatfieldKit/Callback Manager', 'import HatfieldKit ; HatfieldKit.CallbackManager().show()')
 
 # Breaks out a single layer to rgb and then shuffles it back into the source node.
 def breakOutLayer():
@@ -155,7 +155,7 @@ def breakOutLayer():
         shuffleCopy['out'].setValue(layers[index])
         shuffleCopy.setInput(0, anchor)
         shuffleCopy.setInput(1, pipeAnchor)
-nuke.menu('Node Graph').addCommand('Hatfield\'s/Break out layer', breakOutLayer, 'ctrl+b')
+nuke.menu('Node Graph').addCommand('FloatingTools/toolbox/Python/HatfieldKit/Break out layer', breakOutLayer, 'ctrl+b')
 
 """
 Hatfield Node Kisser. Simulates the node kissing function from Flame.
@@ -215,4 +215,4 @@ def node_kisser():
         selNode.setInput(input_int, possible_nodes[keys[0]])
     except:
         pass
-nuke.menu('Node Graph').addCommand('Hatfield\'s/Kiss', node_kisser, 'shift+z')
+nuke.menu('Node Graph').addCommand('FloatingTools/toolbox/Python/HatfieldKit/Kiss', node_kisser, 'shift+z')
