@@ -10,18 +10,6 @@ import os
 import sys
 from collections import OrderedDict
 
-# shows the import order for this pipeline
-def showPipelineStructure():
-    """
-    Display the import order from the pipeline.
-    :return:
-    """
-    p = nuke.Panel('Pipeline import order')
-    for order, path in enumerate(TRACED):
-        p.addSingleLineInput(str(order+1), path)
-    p.show()
-nuke.menu('Nuke').addCommand('Hatfield\'s/Pipeline/Import Order', showPipelineStructure)
-
 # used in tandem with floating windows in the node graph. 
 # Assigns a 'Close all' method to the alt+` hotkey combo so 
 # you don't need to click close on all of them.
