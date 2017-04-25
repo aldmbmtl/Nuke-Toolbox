@@ -1,3 +1,3 @@
 import FloatingTools
 
-print 'Packge imports'
+HatfieldKit = FloatingTools.cloudImport('aldmbmtl/toolbox', '/tools/Nuke/Python/HatfieldKit')
