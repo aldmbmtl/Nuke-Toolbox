@@ -1,5 +1,6 @@
 {
     "paths": [
-        "/tools/{Applications}"
+        "/tools/{Applications}", 
+        "/tools/generic"
     ]
 }
