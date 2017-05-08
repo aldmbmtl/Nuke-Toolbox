@@ -1,7 +1,6 @@
 {
     "paths": [
         "/tools/{Applications}", 
-        "/tools/generic", 
-        "/maya/tools"
+        "/tools/generic"
     ]
 }
