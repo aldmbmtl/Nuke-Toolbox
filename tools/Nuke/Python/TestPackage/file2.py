@@ -1,1 +1,2 @@
-print 'file 2'
+def testing():
+    print 'asdfsafd'
