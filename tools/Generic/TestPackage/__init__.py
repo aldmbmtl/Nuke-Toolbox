@@ -1,2 +1,2 @@
-import subPack
-import file2
+import TestPackage.subPack
+import TestPackage.file2
