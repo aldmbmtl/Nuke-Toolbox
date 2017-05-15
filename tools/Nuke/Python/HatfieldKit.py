@@ -2,13 +2,8 @@
 import nuke
 import nukescripts
 
-# PySide imports
-from PySide import QtGui
-
 # python imports
 import os
-import sys
-from collections import OrderedDict
 
 # used in tandem with floating windows in the node graph. 
 # Assigns a 'Close all' method to the alt+` hotkey combo so 
