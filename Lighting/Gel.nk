@@ -1,0 +1,338 @@
+set cut_paste_input [stack 0]
+version 9.0 v6
+push $cut_paste_input
+Group {
+ name HFX_Gel
+ tile_color 0x91ffff
+ label "\[value gelAmount] \[value gelOption]"
+ selected true
+ xpos 297
+ ypos -2718
+ addUserKnob {20 User l Gel}
+ addUserKnob {4 gelOption l Type M {CT-B CT-O Opal Opal-Frost}}
+ addUserKnob {4 gelAmount l "" -STARTLINE M {Quarter Half Single Double "" ""}}
+}
+ Input {
+  inputs 0
+  name Light
+  xpos -40
+  ypos -10
+ }
+set N9104b400 [stack 0]
+push $N9104b400
+ Blur {
+  channels rgba
+  size 40
+  name Blur4
+  xpos -920
+  ypos 302
+ }
+ Merge2 {
+  inputs 2
+  operation average
+  mix 0.25
+  name Merge4
+  xpos -920
+  ypos 350
+ }
+set N9104ac00 [stack 0]
+push $N9104ac00
+push $N9104b400
+ Remove {
+  name Remove1
+  xpos -1690
+  ypos -16
+ }
+ Noise {
+  size 1
+  center {1024 778}
+  name Noise1
+  xpos -1690
+  ypos 38
+ }
+set N9104a400 [stack 0]
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox A
+  name Merge5
+  xpos -2240
+  ypos 518
+ }
+ Blur {
+  size 3
+  name Blur5
+  xpos -2240
+  ypos 560
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox A
+  name Merge6
+  xpos -2240
+  ypos 614
+ }
+push $N9104b400
+push $N9104b400
+ Blur {
+  channels rgba
+  size 30
+  name Blur3
+  xpos -700
+  ypos 302
+ }
+ Merge2 {
+  inputs 2
+  operation average
+  mix 0.5
+  name Merge3
+  xpos -700
+  ypos 350
+ }
+set N9108b000 [stack 0]
+push $N9108b000
+push $N9104a400
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox A
+  name Merge7
+  xpos -1910
+  ypos 518
+ }
+ Blur {
+  size 3
+  name Blur6
+  xpos -1910
+  ypos 560
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox A
+  name Merge8
+  xpos -1910
+  ypos 614
+ }
+push $N9104b400
+push $N9104b400
+ Blur {
+  channels rgba
+  size 20
+  name Blur2
+  xpos -480
+  ypos 302
+ }
+ Merge2 {
+  inputs 2
+  operation average
+  mix 0.7
+  name Merge2
+  xpos -480
+  ypos 350
+ }
+set N910d9c00 [stack 0]
+push $N910d9c00
+push $N9104a400
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox A
+  name Merge9
+  xpos -1580
+  ypos 518
+ }
+ Blur {
+  size 3
+  name Blur7
+  xpos -1580
+  ypos 560
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox A
+  name Merge10
+  xpos -1580
+  ypos 614
+ }
+push $N9104b400
+ Blur {
+  channels rgba
+  size 10
+  name Blur1
+  xpos -260
+  ypos 302
+ }
+push $N9104b400
+ Merge2 {
+  inputs 2
+  operation average
+  name Merge1
+  xpos -260
+  ypos 350
+ }
+set N910d8800 [stack 0]
+push $N910d8800
+push $N9104a400
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox A
+  name Merge11
+  xpos -1140
+  ypos 518
+ }
+ Blur {
+  size 3
+  name Blur8
+  xpos -1140
+  ypos 560
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox A
+  name Merge12
+  xpos -1140
+  ypos 614
+ }
+ Switch {
+  inputs 4
+  which {{gelAmount}}
+  name Switch5
+  xpos -1690
+  ypos 734
+ }
+push $N9104ac00
+push $N9108b000
+push $N910d9c00
+push $N910d8800
+ Switch {
+  inputs 4
+  which {{gelAmount}}
+  name Switch4
+  xpos -370
+  ypos 470
+ }
+push $N9104b400
+ Colorspace {
+  channels rgba
+  colorspace_out CIE-Yxy
+  name Colorspace1
+  xpos -40
+  ypos 86
+ }
+set N91123000 [stack 0]
+ Grade {
+  channels rgba
+  multiply {1 1.3 1.3 1}
+  name Grade5
+  xpos 620
+  ypos 302
+ }
+push $N91123000
+ Grade {
+  channels rgba
+  multiply {1 1.3 1.3 1}
+  mix 0.7
+  name Grade6
+  xpos 510
+  ypos 302
+ }
+push $N91123000
+ Grade {
+  channels rgba
+  multiply {1 1.3 1.3 1}
+  mix 0.5
+  name Grade7
+  xpos 400
+  ypos 302
+ }
+push $N91123000
+ Grade {
+  channels rgba
+  multiply {1 1.3 1.3 1}
+  mix 0.3
+  name Grade8
+  xpos 290
+  ypos 302
+ }
+ Switch {
+  inputs 4
+  which {{gelAmount}}
+  name Switch3
+  xpos 400
+  ypos 374
+ }
+ Colorspace {
+  channels rgba
+  colorspace_in CIE-Yxy
+  name Colorspace4
+  xpos 400
+  ypos 422
+ }
+push $N91123000
+ Grade {
+  channels rgba
+  multiply {1 0.7 0.7 1}
+  name Grade2
+  xpos 180
+  ypos 302
+ }
+push $N91123000
+ Grade {
+  channels rgba
+  multiply {1 0.7 0.7 1}
+  mix 0.7
+  name Grade1
+  xpos 70
+  ypos 302
+ }
+push $N91123000
+ Grade {
+  channels rgba
+  multiply {1 0.7 0.7 1}
+  mix 0.5
+  name Grade3
+  xpos -40
+  ypos 302
+ }
+push $N91123000
+ Grade {
+  channels rgba
+  multiply {1 0.7 0.7 1}
+  mix 0.3
+  name Grade4
+  xpos -150
+  ypos 302
+ }
+ Switch {
+  inputs 4
+  which {{gelAmount}}
+  name Switch1
+  xpos -40
+  ypos 374
+ }
+ Colorspace {
+  channels rgba
+  colorspace_in CIE-Yxy
+  name Colorspace3
+  xpos -40
+  ypos 422
+ }
+ Switch {
+  inputs 4
+  which {{gelOption}}
+  name Switch2
+  xpos -40
+  ypos 758
+ }
+ Output {
+  name Output1
+  selected true
+  xpos -40
+  ypos 950
+ }
+end_group
